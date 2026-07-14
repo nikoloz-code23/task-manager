@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+    <title>Task Manager</title>
+  </head>
+  <body>
+    <header>
+      <div class="header-wrapper">
+        <h1>Task Manager</h1>
+        <p>
+          Use this website to write down your task, search and filter through
+          them!
+        </p>
+      </div>
+    </header>
+    <main>
+      <div class="interface-wrapper">
+        <div class="search-wrapper">
+          <label for="search">Search by task name:</label>
+          <input
+            type="text"
+            name="search-task"
+            id="search"
+            placeholder="Search by task name!"
+          />
+        </div>
+        <div class="filter-wrapper">
+          <label for="filter">Filter by status:</label>
+          <select name="filter-by" id="filter">
+            <option value="completed">Completed</option>
+            <option value="not-completed">Not Completed</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="tasks-wrapper">
+        <div class="task" id="1">
+          <h3>Title</h3>
+          <div class="status-wrapper">
+            <span>Status:</span>
+            <span class="status-completed">COMPLETED</span>
+            <span class="status-not-completed">COMPLETED</span>
+          </div>
+        </div>
+        <div class="task" id="2">
+          <h3>Title</h3>
+          <div class="status-wrapper">
+            <span>Status:</span>
+            <span class="status-completed">COMPLETED</span>
+            <span class="status-not-completed">COMPLETED</span>
+          </div>
+        </div>
+        <div class="task" id="3">
+          <h3>Title</h3>
+          <div class="status-wrapper">
+            <span>Status:</span>
+            <span class="status-completed">COMPLETED</span>
+            <span class="status-not-completed">COMPLETED</span>
+          </div>
+        </div>
+        <div class="task" id="4">
+          <h3>Title</h3>
+          <div class="status-wrapper">
+            <span>Status:</span>
+            <span class="status-completed">COMPLETED</span>
+            <span class="status-not-completed">COMPLETED</span>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="information-wrapper">
+        <p class="title">Task Manager</p>
+        <p class="description">
+          Task Manager was built to give you a simple and an easy way to manage
+          your tasks. Developed specifically for the Skillwill Javascript Final
+          by Nikoloz Kochiashvili.
+        </p>
+      </div>
+      <p class="footer-copyright">All rights reserved.</p>
+    </footer>
+
+    <script src="./assets/app.js"></script>
+  </body>
+</html>
