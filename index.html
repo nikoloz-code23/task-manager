@@ -3,33 +3,43 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./assets/css/styles.css" />
     <title>Task Manager</title>
   </head>
   <body>
     <header>
       <div class="header-wrapper">
-        <h1>Task Manager</h1>
-        <p>
-          Use this website to write down your task, search and filter through
-          them!
-        </p>
+        <div class="header-subwrapper">
+          <h1>Task Manager</h1>
+          <p>
+            Use this website to write down your task, search and filter through
+            them!
+          </p>
+        </div>
+        <p></p>
       </div>
     </header>
     <main>
       <div class="interface-wrapper">
-        <div class="search-wrapper">
-          <label for="search">Search by task name:</label>
+        <div class="interface-label-wrapper">
+          <label for="search" class="input-label">Search by task name:</label>
+          <label for="filter" class="input-label">Filter by status:</label>
+        </div>
+        <div class="interface-input-wrapper">
           <input
             type="text"
             name="search-task"
+            class="text-input"
             id="search"
             placeholder="Search by task name!"
           />
-        </div>
-        <div class="filter-wrapper">
-          <label for="filter">Filter by status:</label>
-          <select name="filter-by" id="filter">
+          <select name="filter-by" id="filter" class="select-input">
             <option value="completed">Completed</option>
             <option value="not-completed">Not Completed</option>
           </select>
