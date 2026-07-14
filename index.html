@@ -9,6 +9,9 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="./assets/css/variables.css" />
+    <link rel="stylesheet" href="./assets/css/resets.css" />
+    <link rel="stylesheet" href="./assets/css/components.css" />
     <link rel="stylesheet" href="./assets/css/styles.css" />
     <title>Task Manager</title>
   </head>
@@ -26,25 +29,29 @@
       </div>
     </header>
     <main>
-      <div class="interface-wrapper">
-        <div class="interface-label-wrapper">
-          <label for="search" class="input-label">Search by task name:</label>
-          <label for="filter" class="input-label">Filter by status:</label>
+      <form action="" class="filter-wrapper">
+        <div class="input-label-wrapper">
+          <div class="interface-label-wrapper">
+            <label for="search" class="input-label">Search by task name:</label>
+            <label for="filter" class="input-label">Filter by status:</label>
+          </div>
+          <div class="interface-input-wrapper">
+            <input
+              type="text"
+              name="search-task"
+              class="text-input"
+              id="search"
+              placeholder="Search by task name!"
+            />
+            <select name="filter-by" id="filter" class="select-input">
+              <option value="completed">Completed</option>
+              <option value="not-completed">Not Completed</option>
+            </select>
+          </div>
         </div>
-        <div class="interface-input-wrapper">
-          <input
-            type="text"
-            name="search-task"
-            class="text-input"
-            id="search"
-            placeholder="Search by task name!"
-          />
-          <select name="filter-by" id="filter" class="select-input">
-            <option value="completed">Completed</option>
-            <option value="not-completed">Not Completed</option>
-          </select>
-        </div>
-      </div>
+        <button type="submit" class="button submit">Submit</button>
+      </form>
+      <button class="button">Create a new task</button>
 
       <div class="tasks-wrapper">
         <div class="task" id="1">
@@ -69,6 +76,10 @@
           </div>
         </div>
       </div>
+
+      <div class="modal-background">
+        <form action="" class="new-task-form"></form>
+      </div>
     </main>
     <footer>
       <div class="information-wrapper">
@@ -82,7 +93,6 @@
       <p class="footer-copyright">(All rights reserved.)</p>
       <p class="footer-copyright-trail"></p>
     </footer>
-
-    <script src="./assets/app.js"></script>
+    <script type="module" src="./assets/js/app.js"></script>
   </body>
 </html>
