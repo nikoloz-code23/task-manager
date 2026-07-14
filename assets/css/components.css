@@ -106,6 +106,36 @@
   text-transform: capitalize;
 }
 
+.button {
+  display: block;
+
+  width: 14rem;
+  height: 4rem;
+
+  margin: 1rem auto;
+
+  border: 0.15rem solid var(--primary-color);
+  border-radius: 5px;
+
+  color: var(--primary-subcolor);
+  background-color: white;
+
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: capitalize;
+
+  &.submit {
+    width: 8rem;
+    height: 2rem;
+    margin-block: 0.5rem;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--dropdown-background);
+  }
+}
+
 .task {
   width: 20rem;
   min-height: 6rem;
@@ -124,4 +154,17 @@
     padding-bottom: 0.5rem;
     color: var(--primary-subcolor);
   }
+}
+
+.not-visible {
+  display: none;
+}
+
+.modal-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
 }
