@@ -1,4 +1,4 @@
-export const createTaskObject = (id, title, status) => {
+const createTaskObject = (id, title, status) => {
   return {
     id,
     title,
@@ -6,7 +6,7 @@ export const createTaskObject = (id, title, status) => {
   };
 };
 
-export const saveToLocalStorage = (key, data) => {
+const saveToLocalStorage = (key, data) => {
   try {
     if (!key || !data) {
       throw new Error("No key or data provided");
@@ -18,7 +18,7 @@ export const saveToLocalStorage = (key, data) => {
   }
 };
 
-export const getDataFromLocalStorage = (key) => {
+const getDataFromLocalStorage = (key) => {
   try {
     if (!key) {
       throw new Error("No key provided");
@@ -38,7 +38,7 @@ export const getDataFromLocalStorage = (key) => {
   }
 };
 
-export const getData = async (url) => {
+const getDataFetch = async (url) => {
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -50,4 +50,11 @@ export const getData = async (url) => {
     console.error(error.message);
     return undefined;
   }
+};
+
+export {
+  createTaskObject,
+  saveToLocalStorage,
+  getDataFromLocalStorage,
+  getDataFetch,
 };
