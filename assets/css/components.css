@@ -1,0 +1,54 @@
+.text-input {
+  width: 18rem;
+  height: 2rem;
+  padding: 1rem;
+  border: 2px solid var(--primary-color);
+  border-radius: 0.5rem;
+
+  color: var(--primary-subcolor);
+  font-size: 1.1rem;
+  font-weight: 600;
+
+  &::placeholder {
+    color: var(--placeholder-text-color);
+  }
+}
+
+.select-input {
+  appearance: base-select;
+
+  width: 18rem;
+  height: 2rem;
+  padding-left: 1rem;
+  padding-top: 0.2rem;
+  border: 2px solid var(--primary-color);
+  border-radius: 0.5rem;
+
+  color: var(--primary-subcolor);
+  background: var(--primary-white);
+  font-size: 1.1rem;
+  font-weight: 600;
+
+  &::picker-icon {
+    color: black;
+    padding-right: 1rem;
+  }
+
+  &::picker(select) {
+    appearance: base-select;
+    border: inherit;
+    border-radius: inherit;
+    color: inherit;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.input-label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--primary-subcolor);
+}

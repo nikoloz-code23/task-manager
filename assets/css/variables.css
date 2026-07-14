@@ -1,0 +1,11 @@
+:root {
+  --primary-text-color: #31241f;
+  --placeholder-text-color: #95adbe;
+  --primary-color: #5992c6;
+  --primary-subcolor: #0a2a92;
+  --primary-white: #ffffff;
+  --select-white: #e8eff1;
+
+  --logo-background: #c3e9ec;
+  --logo-text: rgb(0, 110, 255);
+}
