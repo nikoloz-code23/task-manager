@@ -1,0 +1,127 @@
+.text-input {
+  width: 18rem;
+  height: 2rem;
+  padding: 1rem;
+  border: 2px solid var(--primary-color);
+  border-radius: 0.5rem;
+
+  color: var(--primary-subcolor);
+  font-size: 1.1rem;
+  font-weight: 600;
+
+  &::placeholder {
+    color: var(--placeholder-text-color);
+  }
+}
+
+.select-input {
+  appearance: base-select;
+
+  width: 18rem;
+  height: 2rem;
+  padding-left: 1rem;
+  padding-top: 0.2rem;
+  border: 2px solid var(--primary-color);
+  border-radius: 0.5rem;
+
+  color: var(--primary-subcolor);
+  background: var(--primary-white);
+  font-size: 1.1rem;
+  font-weight: 600;
+
+  &::picker-icon {
+    color: black;
+    padding-right: 1rem;
+  }
+
+  &::picker(select) {
+    appearance: base-select;
+    border: inherit;
+    border-radius: inherit;
+    color: inherit;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.input-label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--primary-subcolor);
+}
+
+.status-select {
+  appearance: base-select;
+  display: block;
+  margin: 0 auto;
+
+  text-align: center;
+  height: 2.6rem;
+  padding-top: 0.2rem;
+  border-radius: 0.5rem;
+
+  color: var(--primary-subcolor);
+  font-size: 1.1rem;
+  font-weight: 600;
+
+  &::picker-icon {
+    color: inherit;
+  }
+
+  option {
+    border-radius: 2rem;
+  }
+
+  &::picker(select) {
+    appearance: base-select;
+    text-align: center;
+
+    padding: 1rem;
+
+    border: 2px solid var(--primary-color);
+    border-radius: 0.5rem;
+
+    color: var(--dropdown-background);
+    background-color: var(--dropdown-background);
+    background: var(--dropdown-background);
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.status-completed {
+  color: var(--status-completed);
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.status-not-completed {
+  color: var(--status-not-completed);
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.task {
+  width: 20rem;
+  min-height: 6rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: var(--task-background);
+  text-align: center;
+
+  .task-header {
+    font-weight: 600;
+  }
+  .task-body {
+    display: inline-block;
+    font-weight: 500;
+    font-size: 1rem;
+    padding-bottom: 0.5rem;
+    color: var(--primary-subcolor);
+  }
+}

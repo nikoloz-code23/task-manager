@@ -3,33 +3,43 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./assets/css/styles.css" />
     <title>Task Manager</title>
   </head>
   <body>
     <header>
       <div class="header-wrapper">
-        <h1>Task Manager</h1>
-        <p>
-          Use this website to write down your task, search and filter through
-          them!
-        </p>
+        <div class="header-subwrapper">
+          <h1>Task Manager</h1>
+          <p>
+            Use this website to write down your task, search and filter through
+            them!
+          </p>
+        </div>
+        <p></p>
       </div>
     </header>
     <main>
       <div class="interface-wrapper">
-        <div class="search-wrapper">
-          <label for="search">Search by task name:</label>
+        <div class="interface-label-wrapper">
+          <label for="search" class="input-label">Search by task name:</label>
+          <label for="filter" class="input-label">Filter by status:</label>
+        </div>
+        <div class="interface-input-wrapper">
           <input
             type="text"
             name="search-task"
+            class="text-input"
             id="search"
             placeholder="Search by task name!"
           />
-        </div>
-        <div class="filter-wrapper">
-          <label for="filter">Filter by status:</label>
-          <select name="filter-by" id="filter">
+          <select name="filter-by" id="filter" class="select-input">
             <option value="completed">Completed</option>
             <option value="not-completed">Not Completed</option>
           </select>
@@ -38,49 +48,39 @@
 
       <div class="tasks-wrapper">
         <div class="task" id="1">
-          <h3>Title</h3>
+          <p class="task-header">Task:</p>
+          <h3 class="task-body">
+            laboriosam mollitia et enim quasi adipisci quia provident illum
+          </h3>
           <div class="status-wrapper">
-            <span>Status:</span>
-            <span class="status-completed">COMPLETED</span>
-            <span class="status-not-completed">COMPLETED</span>
-          </div>
-        </div>
-        <div class="task" id="2">
-          <h3>Title</h3>
-          <div class="status-wrapper">
-            <span>Status:</span>
-            <span class="status-completed">COMPLETED</span>
-            <span class="status-not-completed">COMPLETED</span>
-          </div>
-        </div>
-        <div class="task" id="3">
-          <h3>Title</h3>
-          <div class="status-wrapper">
-            <span>Status:</span>
-            <span class="status-completed">COMPLETED</span>
-            <span class="status-not-completed">COMPLETED</span>
-          </div>
-        </div>
-        <div class="task" id="4">
-          <h3>Title</h3>
-          <div class="status-wrapper">
-            <span>Status:</span>
-            <span class="status-completed">COMPLETED</span>
-            <span class="status-not-completed">COMPLETED</span>
+            <p><strong>Status:</strong></p>
+            <select
+              name="status"
+              id="status"
+              class="status-select status-completed"
+            >
+              <option value="completed" class="status-completed">
+                Completed
+              </option>
+              <option value="not-completed" class="status-not-completed">
+                Not Completed
+              </option>
+            </select>
           </div>
         </div>
       </div>
     </main>
     <footer>
       <div class="information-wrapper">
-        <p class="title">Task Manager</p>
+        <p class="title">About</p>
         <p class="description">
           Task Manager was built to give you a simple and an easy way to manage
           your tasks. Developed specifically for the Skillwill Javascript Final
-          by Nikoloz Kochiashvili.
+          by <em>Nikoloz Kochiashvili.</em>
         </p>
       </div>
-      <p class="footer-copyright">All rights reserved.</p>
+      <p class="footer-copyright">(All rights reserved.)</p>
+      <p class="footer-copyright-trail"></p>
     </footer>
 
     <script src="./assets/app.js"></script>
