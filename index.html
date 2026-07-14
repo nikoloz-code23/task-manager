@@ -48,49 +48,39 @@
 
       <div class="tasks-wrapper">
         <div class="task" id="1">
-          <h3>Title</h3>
+          <p class="task-header">Task:</p>
+          <h3 class="task-body">
+            laboriosam mollitia et enim quasi adipisci quia provident illum
+          </h3>
           <div class="status-wrapper">
-            <span>Status:</span>
-            <span class="status-completed">COMPLETED</span>
-            <span class="status-not-completed">COMPLETED</span>
-          </div>
-        </div>
-        <div class="task" id="2">
-          <h3>Title</h3>
-          <div class="status-wrapper">
-            <span>Status:</span>
-            <span class="status-completed">COMPLETED</span>
-            <span class="status-not-completed">COMPLETED</span>
-          </div>
-        </div>
-        <div class="task" id="3">
-          <h3>Title</h3>
-          <div class="status-wrapper">
-            <span>Status:</span>
-            <span class="status-completed">COMPLETED</span>
-            <span class="status-not-completed">COMPLETED</span>
-          </div>
-        </div>
-        <div class="task" id="4">
-          <h3>Title</h3>
-          <div class="status-wrapper">
-            <span>Status:</span>
-            <span class="status-completed">COMPLETED</span>
-            <span class="status-not-completed">COMPLETED</span>
+            <p><strong>Status:</strong></p>
+            <select
+              name="status"
+              id="status"
+              class="status-select status-completed"
+            >
+              <option value="completed" class="status-completed">
+                Completed
+              </option>
+              <option value="not-completed" class="status-not-completed">
+                Not Completed
+              </option>
+            </select>
           </div>
         </div>
       </div>
     </main>
     <footer>
       <div class="information-wrapper">
-        <p class="title">Task Manager</p>
+        <p class="title">About</p>
         <p class="description">
           Task Manager was built to give you a simple and an easy way to manage
           your tasks. Developed specifically for the Skillwill Javascript Final
-          by Nikoloz Kochiashvili.
+          by <em>Nikoloz Kochiashvili.</em>
         </p>
       </div>
-      <p class="footer-copyright">All rights reserved.</p>
+      <p class="footer-copyright">(All rights reserved.)</p>
+      <p class="footer-copyright-trail"></p>
     </footer>
 
     <script src="./assets/app.js"></script>
