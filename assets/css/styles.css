@@ -1,7 +1,3 @@
-@import url("./resets.css");
-@import url("./variables.css");
-@import url("./components.css");
-
 body {
   color: var(--primary-text-color);
   font-family: "Montserrat", sans-serif;
@@ -25,14 +21,21 @@ header {
 }
 
 main {
+  min-height: 28rem;
   padding-inline: 15rem;
-  .interface-wrapper {
+  .filter-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: row;
-    gap: 1rem;
+    flex-direction: column;
 
+    .input-label-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+      gap: 1rem;
+    }
     .interface-label-wrapper {
       display: flex;
       justify-content: center;
