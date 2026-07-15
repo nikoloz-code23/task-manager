@@ -1,4 +1,4 @@
-const STATUS = {
+export const TASK_STATUS = {
   completed: "true",
   notCompleted: "false",
 };
@@ -14,12 +14,12 @@ export const taskTemplate = (task) =>
       <p><strong>Status:</strong></p>
       <select
         name="status"
-        class="status-select ${task.completed === STATUS.completed ? "status-completed" : "status-not-completed"}"
+        class="status-select ${task.completed === TASK_STATUS.completed ? "status-completed" : "status-not-completed"}"
       >
-        <option value="completed" class="status-completed" ${task.completed === STATUS.completed && "selected"}>
+        <option value="completed" class="status-completed" ${task.completed === TASK_STATUS.completed && "selected"}>
           Completed
         </option>
-        <option value="not-completed" class="status-not-completed" ${task.completed === STATUS.notCompleted && "selected"}>
+        <option value="not-completed" class="status-not-completed" ${task.completed === TASK_STATUS.notCompleted && "selected"}>
           Not Completed
         </option>
       </select>

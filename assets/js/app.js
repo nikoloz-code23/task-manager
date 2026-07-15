@@ -1,4 +1,4 @@
-import { taskTemplate } from "./templates.js";
+import { taskTemplate, TASK_STATUS } from "./templates.js";
 import {
   createTaskObject,
   saveToLocalStorage,
@@ -75,6 +75,14 @@ function setAndReturnNextIdToSessionStorage() {
   return lastTaskId;
 }
 
+function changeTaskStatus(element, status) {
+  const taskId = element.dataset.id;
+  const taskIndex = tasksCache.findIndex((element) => element.id == taskId);
+  if (taskIndex === -1) console.error("Something went wrong!");
+  tasksCache[taskIndex].completed = status;
+  saveToLocalStorage(stringAccessors.localTaskData, tasksCache);
+}
+
 let tasksCache = [];
 
 document.addEventListener("DOMContentLoaded", async (e) => {
@@ -87,6 +95,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
   );
 
   const newTaskForm = modalElement.querySelector(".new-task-form");
+  const taskTitleInput = modalElement.querySelector("#task-title");
   const closeButton = modalElement.querySelector(".close-button");
 
   const taskNameValidation = newTaskForm.querySelector(".input-validation");
@@ -144,16 +153,24 @@ document.addEventListener("DOMContentLoaded", async (e) => {
 
   newTaskButton.addEventListener("click", () => {
     toggleElementVisibility(modalElement);
+    taskTitleInput.focus();
   });
 
   document.addEventListener("change", (e) => {
     const element = e.target;
 
     if (element.classList.contains("status-select")) {
+      const taskElement = element.closest(".task");
       if (element.value === "not-completed") {
+        if (taskElement) {
+          changeTaskStatus(taskElement, TASK_STATUS.notCompleted);
+        }
         element.classList.remove("status-completed");
         element.classList.add("status-not-completed");
         return;
+      }
+      if (taskElement) {
+        changeTaskStatus(taskElement, TASK_STATUS.completed);
       }
       element.classList.remove("status-not-completed");
       element.classList.add("status-completed");
@@ -161,8 +178,15 @@ document.addEventListener("DOMContentLoaded", async (e) => {
   });
 
   document.addEventListener("keydown", (e) => {
-    if (!modalElement.hasAttribute("inert") && e.key === "Escape") {
-      closeModalSafely(modalElement, taskNameValidation, newTaskForm);
+    if (modalElement.hasAttribute("inert")) return;
+    switch (e.key) {
+      case "Escape":
+        closeModalSafely(modalElement, taskNameValidation, newTaskForm);
+        break;
+      case "Enter":
+        e.preventDefault();
+        newTaskForm.requestSubmit();
+        break;
     }
   });
 
@@ -172,6 +196,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
     if (element.classList.contains("delete-button")) {
       const task = element.closest(".task");
       const taskId = task.dataset.id;
+      if (taskId === undefined) console.error("Something went wrong!");
       task.remove();
 
       // This is one way to do it.
