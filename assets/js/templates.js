@@ -1,6 +1,6 @@
 const STATUS = {
-  completed: "completed",
-  notCompleted: "not-completed",
+  completed: "true",
+  notCompleted: "false",
 };
 
 export const taskTemplate = (task) =>
