@@ -52,9 +52,20 @@ const getDataFetch = async (url) => {
   }
 };
 
+const toggleElementVisibility = (element) => {
+  element.inert = !element.inert;
+};
+
+const closeModalSafely = (element, validation) => {
+  toggleElementVisibility(element);
+  validation.innerText = "";
+};
+
 export {
   createTaskObject,
   saveToLocalStorage,
   getDataFromLocalStorage,
   getDataFetch,
+  toggleElementVisibility,
+  closeModalSafely,
 };
