@@ -13,7 +13,9 @@ document.addEventListener("DOMContentLoaded", async (e) => {
   const tasksWrapperElement = mainElement.querySelector(".tasks-wrapper");
 
   newTaskButton.addEventListener("click", () => {
-    modalElement.classList.toggle("not-visible");
+    modalElement.classList.toggle("modal-not-visible");
+    modalElement.classList.toggle("modal-visible");
+
     /*
     tasksWrapperElement.insertAdjacentHTML(
       "beforeend",
@@ -26,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
     */
   });
 
-  tasksWrapperElement.addEventListener("change", (e) => {
+  document.addEventListener("change", (e) => {
     const element = e.target;
 
     if (element.classList.contains("status-select")) {
