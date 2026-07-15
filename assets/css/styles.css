@@ -29,26 +29,71 @@ main {
     align-items: center;
     flex-direction: column;
 
-    .input-label-wrapper {
+    width: 40rem;
+    margin: 0 auto;
+
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(0.25turn, white, var(--primary-color), white)
+      1;
+    padding-bottom: 1rem;
+  }
+
+  .new-task-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    margin: auto;
+
+    width: 25rem;
+    padding: 4rem;
+
+    border-radius: 2rem;
+    background-color: var(--task-background);
+    box-shadow: 0 0 4rem var(--task-background);
+
+    .new-task-header {
+      padding-bottom: 1rem;
+    }
+
+    .new-task-input-label-wrapper {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
-      flex-direction: row;
-      gap: 1rem;
-    }
-    .interface-label-wrapper {
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      text-align: end;
-      gap: 0.2rem;
-    }
-    .interface-input-wrapper {
-      display: flex;
-      justify-content: center;
       flex-direction: column;
       gap: 0.2rem;
+
+      padding-bottom: 1rem;
+      width: 100%;
+
+      label {
+        font-weight: 800;
+        text-transform: uppercase;
+      }
     }
+  }
+
+  .input-label-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .interface-label-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: end;
+    gap: 0.2rem;
+  }
+  .interface-input-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.2rem;
   }
 
   .tasks-wrapper {
