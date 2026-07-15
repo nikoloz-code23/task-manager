@@ -3,23 +3,103 @@ import {
   createTaskObject,
   saveToLocalStorage,
   getDataFromLocalStorage,
+  saveToSessionStorage,
+  getDataFromSessionStorage,
   getDataFetch,
   toggleElementVisibility,
   closeModalSafely,
 } from "./utils.js";
 import { validateTaskName } from "./validation.js";
 
+// Enum-like object, to make sure I won't have any typos when trying
+// to access any of them.
+const stringAccessors = {
+  localTaskData: "taskData",
+  sessionLastId: "lastId",
+};
+
+// This doesn't need to be a closure, but I want to flex. Hope it's okay.
+function loadingTextAnimation(currentTaskDataStatus) {
+  let dots = "";
+  let loadingText = "Loading";
+
+  function closureFunction() {
+    dots += ".";
+    if (dots.length > 3) {
+      dots = "";
+    }
+    currentTaskDataStatus.innerText = loadingText + dots;
+  }
+
+  return closureFunction;
+}
+
+async function getTasks(dataWrapperElement) {
+  const dataLocalStorage = getDataFromLocalStorage(
+    stringAccessors.localTaskData,
+  );
+  if (dataLocalStorage.length > 0) {
+    tasksCache = dataLocalStorage;
+  } else {
+    const dataFetch = await getDataFetch(
+      "https://jsonplaceholder.typicode.com/todos?_limit=5",
+    );
+    if (dataFetch.length <= 0) console.error("Something went wrong!");
+    tasksCache = dataFetch.map(({ id, title, completed }) => ({
+      id,
+      title,
+      completed,
+    }));
+    saveToLocalStorage(stringAccessors.localTaskData, tasksCache);
+  }
+
+  const lastTask = tasksCache.at(-1);
+  saveToSessionStorage(stringAccessors.sessionLastId, lastTask.id);
+
+  for (const element of tasksCache) {
+    const newTask = createTaskObject(
+      element.id,
+      element.title,
+      String(element.completed),
+    );
+    dataWrapperElement.insertAdjacentHTML("beforeend", taskTemplate(newTask));
+  }
+}
+
+// I would have these tasks be UUID's to not have to have this,
+// but since the API uses a numeric Id, I'll just roll with it.
+function setAndReturnNextIdToSessionStorage() {
+  let lastTaskId = getDataFromSessionStorage(stringAccessors.sessionLastId);
+  lastTaskId++;
+  saveToSessionStorage(stringAccessors.sessionLastId, lastTaskId);
+  return lastTaskId;
+}
+
+let tasksCache = [];
+
 document.addEventListener("DOMContentLoaded", async (e) => {
   const mainElement = document.querySelector("main");
   const newTaskButton = mainElement.querySelector("#new-task-button");
   const modalElement = mainElement.querySelector("#new-task-modal");
   const tasksWrapperElement = mainElement.querySelector(".tasks-wrapper");
-  const noTasksParagraph = mainElement.querySelector(".no-tasks");
+  const currentTaskDataStatus = mainElement.querySelector(
+    ".current-data-status",
+  );
 
   const newTaskForm = modalElement.querySelector(".new-task-form");
   const closeButton = modalElement.querySelector(".close-button");
 
   const taskNameValidation = newTaskForm.querySelector(".input-validation");
+
+  const animationLoop = loadingTextAnimation(currentTaskDataStatus);
+  const intervalId = setInterval(animationLoop, 200);
+
+  setTimeout(async () => {
+    clearInterval(intervalId);
+    toggleElementVisibility(currentTaskDataStatus);
+    await getTasks(tasksWrapperElement);
+    //currentTaskDataStatus.innerText = "No tasks yet...";
+  }, 2000);
 
   newTaskForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -30,16 +110,24 @@ document.addEventListener("DOMContentLoaded", async (e) => {
     if (validateTaskName(formProps.title)) {
       closeModalSafely(modalElement, taskNameValidation, newTaskForm);
 
-      const newTask = taskTemplate({
-        id: 2,
-        title: formProps.title,
-        completed: formProps.status,
-      });
+      let lastTaskId = setAndReturnNextIdToSessionStorage();
 
-      if (!noTasksParagraph.hasAttribute("inert")) {
-        toggleElementVisibility(noTasksParagraph);
+      const newTask = createTaskObject(
+        lastTaskId,
+        formProps.title,
+        formProps.completed,
+      );
+
+      tasksCache = [...tasksCache, newTask];
+      saveToLocalStorage(stringAccessors.localTaskData, tasksCache);
+
+      if (!currentTaskDataStatus.hasAttribute("inert")) {
+        toggleElementVisibility(currentTaskDataStatus);
       }
-      tasksWrapperElement.insertAdjacentHTML("beforeend", newTask);
+      tasksWrapperElement.insertAdjacentHTML(
+        "beforeend",
+        taskTemplate(newTask),
+      );
       return;
     }
     taskNameValidation.innerText = "Task name is empty!";
@@ -83,12 +171,25 @@ document.addEventListener("DOMContentLoaded", async (e) => {
 
     if (element.classList.contains("delete-button")) {
       const task = element.closest(".task");
+      const taskId = task.dataset.id;
       task.remove();
 
+      // This is one way to do it.
+      //tasksCache = tasksCache.filter((element) => element.id != taskId);
+
+      // But this saves CPU cycles, as it stops at the index I need.
+      const taskIndex = tasksCache.findIndex((element) => element.id == taskId);
+      if (taskIndex !== -1) {
+        tasksCache.splice(taskIndex, 1);
+      }
+      saveToLocalStorage(stringAccessors.localTaskData, tasksCache);
+
       const tasks = tasksWrapperElement.children;
-      console.log(tasks);
       if (tasks.length <= 0) {
-        toggleElementVisibility(noTasksParagraph);
+        saveToSessionStorage(stringAccessors.sessionLastId, 0);
+
+        toggleElementVisibility(currentTaskDataStatus);
+        currentTaskDataStatus.innerText = "No tasks yet...";
       }
     }
   });
