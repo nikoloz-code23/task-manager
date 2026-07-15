@@ -10,7 +10,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./assets/css/variables.css" />
-    <link rel="stylesheet" href="./assets/css/resets.css" />
+    <link rel="stylesheet" href="./assets/css/defaults.css" />
     <link rel="stylesheet" href="./assets/css/components.css" />
     <link rel="stylesheet" href="./assets/css/styles.css" />
     <title>Task Manager</title>
@@ -25,11 +25,10 @@
             them!
           </p>
         </div>
-        <p></p>
       </div>
     </header>
     <main>
-      <form action="" class="filter-wrapper">
+      <form class="filter-wrapper">
         <div class="input-label-wrapper">
           <div class="interface-label-wrapper">
             <label for="search" class="input-label">Search by task name:</label>
@@ -44,6 +43,7 @@
               placeholder="Search by task name!"
             />
             <select name="filter-by" id="filter" class="select-input">
+              <option value="all">All Tasks</option>
               <option value="completed">Completed</option>
               <option value="not-completed">Not Completed</option>
             </select>
@@ -54,7 +54,7 @@
       <button class="button" id="new-task-button">Create a new task</button>
 
       <div class="tasks-wrapper">
-        <div class="task" id="1">
+        <div class="task" data-id="1">
           <p class="task-header">Task:</p>
           <h3 class="task-body">
             laboriosam mollitia et enim quasi adipisci quia provident illum
@@ -73,8 +73,37 @@
         </div>
       </div>
 
-      <div class="modal-background not-visible" id="new-task-modal">
-        <form action="" class="new-task-form"></form>
+      <div class="modal-background modal-not-visible" id="new-task-modal">
+        <form class="new-task-form">
+          <h2 class="new-task-header">Create a new task!</h2>
+          <div class="new-task-input-label-wrapper">
+            <label for="task-title" class="input-label">Title:</label>
+            <input
+              type="text"
+              name="title"
+              class="text-input"
+              id="task-title"
+              placeholder="Input your task!"
+            />
+            <p class="input-validation"></p>
+          </div>
+          <div class="new-task-input-label-wrapper">
+            <label for="task-status" class="input-label">Status:</label>
+            <select
+              name="status"
+              class="status-select status-completed"
+              id="task-status"
+            >
+              <option value="completed" class="status-completed">
+                Completed
+              </option>
+              <option value="not-completed" class="status-not-completed">
+                Not Completed
+              </option>
+            </select>
+          </div>
+          <button type="submit" class="button submit">Submit</button>
+        </form>
       </div>
     </main>
     <footer>
