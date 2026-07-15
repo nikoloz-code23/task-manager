@@ -1,6 +1,6 @@
 export const taskTemplate = (task) =>
   `
-  <div class="task" id="${task.id}">
+  <div class="task" data-id="${task.id}">
     <p class="task-header">Task:</p>
     <h3 class="task-body">
       ${task.title}
