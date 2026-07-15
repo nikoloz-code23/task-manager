@@ -53,27 +53,11 @@
       </form>
       <button class="button" id="new-task-button">Create a new task</button>
 
-      <div class="tasks-wrapper">
-        <div class="task" data-id="1">
-          <p class="task-header">Task:</p>
-          <h3 class="task-body">
-            laboriosam mollitia et enim quasi adipisci quia provident illum
-          </h3>
-          <div class="status-wrapper">
-            <p><strong>Status:</strong></p>
-            <select name="status" class="status-select status-completed">
-              <option value="completed" class="status-completed">
-                Completed
-              </option>
-              <option value="not-completed" class="status-not-completed">
-                Not Completed
-              </option>
-            </select>
-          </div>
-        </div>
-      </div>
+      <div class="tasks-wrapper"></div>
+      <div class="no-tasks">No tasks yet...</div>
 
-      <div class="modal-background modal-not-visible" id="new-task-modal">
+      <!-- Using 'inert' here to hide not only visually, but from screen readers too. -->
+      <div class="modal-background" id="new-task-modal" inert>
         <form class="new-task-form">
           <h2 class="new-task-header">Create a new task!</h2>
           <div class="new-task-input-label-wrapper">
@@ -103,6 +87,7 @@
             </select>
           </div>
           <button type="submit" class="button submit">Submit</button>
+          <button type="button" class="close-button">X</button>
         </form>
       </div>
     </main>
