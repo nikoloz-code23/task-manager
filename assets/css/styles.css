@@ -1,7 +1,3 @@
-@import url("./resets.css");
-@import url("./variables.css");
-@import url("./components.css");
-
 body {
   color: var(--primary-text-color);
   font-family: "Montserrat", sans-serif;
@@ -25,13 +21,28 @@ header {
 }
 
 main {
+  min-height: 28rem;
   padding-inline: 15rem;
-  .interface-wrapper {
+  .filter-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: row;
-    gap: 1rem;
+    flex-direction: column;
+
+    width: 40rem;
+    margin: 0 auto;
+
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(0.25turn, white, var(--primary-color), white)
+      1;
+    padding-bottom: 1rem;
+    .input-label-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      flex-direction: row;
+      gap: 1rem;
+    }
 
     .interface-label-wrapper {
       display: flex;
@@ -56,6 +67,58 @@ main {
     gap: 1rem;
 
     margin-top: 1rem;
+  }
+
+  .new-task-form {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    margin: auto;
+
+    width: 25rem;
+    padding: 4rem;
+
+    border-radius: 2rem;
+    background-color: var(--task-background);
+    box-shadow: 0 0 4rem var(--task-background);
+
+    .new-task-header {
+      padding-bottom: 1rem;
+    }
+
+    .new-task-input-label-wrapper {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: column;
+      gap: 0.2rem;
+
+      padding-bottom: 1rem;
+      width: 100%;
+
+      label {
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .no-tasks {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4rem;
+    padding-block: 5rem;
+
+    font-size: 2rem;
+    color: var(--primary-color);
+
+    &[inert] {
+      display: none;
+    }
   }
 }
 
