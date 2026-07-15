@@ -138,6 +138,7 @@
 }
 
 .task {
+  position: relative;
   width: 20rem;
   min-height: 6rem;
   padding: 1rem;
@@ -166,6 +167,7 @@
 }
 
 .modal-background {
+  display: flex;
   justify-content: center;
   position: absolute;
   width: 100%;
@@ -173,4 +175,40 @@
   left: 0;
   top: 0;
   background: radial-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 1));
+  &[inert] {
+    display: none;
+  }
+}
+
+.close-button,
+.delete-button {
+  position: absolute;
+  right: 1rem;
+
+  width: 3rem;
+  height: 3rem;
+
+  font-size: 2rem;
+  font-weight: 800;
+  color: red;
+
+  background-color: transparent;
+  border-radius: 1rem;
+
+  &:hover {
+    cursor: pointer;
+    background-color: pink;
+  }
+}
+
+.close-button {
+  top: 1rem;
+}
+
+.delete-button {
+  font-size: 1rem;
+  top: 0.2rem;
+  right: 0.2rem;
+  width: 2rem;
+  height: 2rem;
 }

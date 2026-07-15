@@ -36,10 +36,42 @@ main {
     border-image: linear-gradient(0.25turn, white, var(--primary-color), white)
       1;
     padding-bottom: 1rem;
+    .input-label-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      flex-direction: row;
+      gap: 1rem;
+    }
+
+    .interface-label-wrapper {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      text-align: end;
+      gap: 0.2rem;
+    }
+    .interface-input-wrapper {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+  }
+
+  .tasks-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    margin-top: 1rem;
   }
 
   .new-task-form {
     display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -74,36 +106,19 @@ main {
     }
   }
 
-  .input-label-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: baseline;
-    flex-direction: row;
-    gap: 1rem;
-  }
-
-  .interface-label-wrapper {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    text-align: end;
-    gap: 0.2rem;
-  }
-  .interface-input-wrapper {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-
-  .tasks-wrapper {
+  .no-tasks {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
+    height: 4rem;
+    padding-block: 5rem;
 
-    margin-top: 1rem;
+    font-size: 2rem;
+    color: var(--primary-color);
+
+    &[inert] {
+      display: none;
+    }
   }
 }
 
