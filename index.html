@@ -75,13 +75,17 @@
             <label for="task-status" class="input-label">Status:</label>
             <select
               name="status"
-              class="status-select status-completed"
+              class="status-select status-not-completed"
               id="task-status"
             >
               <option value="completed" class="status-completed">
                 Completed
               </option>
-              <option value="not-completed" class="status-not-completed">
+              <option
+                value="not-completed"
+                class="status-not-completed"
+                selected
+              >
                 Not Completed
               </option>
             </select>

@@ -56,9 +56,12 @@ const toggleElementVisibility = (element) => {
   element.inert = !element.inert;
 };
 
-const closeModalSafely = (element, validation) => {
+const closeModalSafely = (element, validation, form) => {
   toggleElementVisibility(element);
   validation.innerText = "";
+  if (form) {
+    form.reset();
+  }
 };
 
 export {

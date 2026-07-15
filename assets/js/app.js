@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
     const formProps = Object.fromEntries(formData);
 
     if (validateTaskName(formProps.title)) {
-      closeModalSafely(modalElement, taskNameValidation);
+      closeModalSafely(modalElement, taskNameValidation, newTaskForm);
 
       const newTask = taskTemplate({
         id: 2,
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
     const element = e.target;
 
     if (element.classList.contains("close-button")) {
-      closeModalSafely(modalElement, taskNameValidation);
+      closeModalSafely(modalElement, taskNameValidation, newTaskForm);
     }
   });
 
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
 
   document.addEventListener("keydown", (e) => {
     if (!modalElement.hasAttribute("inert") && e.key === "Escape") {
-      closeModalSafely(modalElement, taskNameValidation);
+      closeModalSafely(modalElement, taskNameValidation, newTaskForm);
     }
   });
 
