@@ -9,33 +9,16 @@ import {
   toggleElementVisibility,
   closeModalSafely,
   createFilterObject,
+  checkForFilterURL,
+  stringAccessors,
 } from "./utils.js";
-import { renderTasks } from "./ui.js";
+import {
+  renderTasks,
+  loadingTextAnimation,
+  updateFilterFormData,
+  updateTaskStatus,
+} from "./ui.js";
 import { validateTaskName } from "./validation.js";
-
-// Enum-like object, to make sure I won't have any typos when trying
-// to access any of them.
-const stringAccessors = {
-  localTaskData: "taskData",
-  sessionLastId: "lastId",
-};
-
-// This doesn't need to be a closure, but I want to flex. Hope it's okay.
-function loadingTextAnimation(currentTaskDataStatus) {
-  // Since it's a closure, these are essentially private variables!
-  let dots = "";
-  let loadingText = "Loading";
-
-  function closureFunction() {
-    dots += ".";
-    if (dots.length > 3) {
-      dots = "";
-    }
-    currentTaskDataStatus.innerText = loadingText + dots;
-  }
-
-  return closureFunction;
-}
 
 async function getTasks() {
   const dataLocalStorage =
@@ -67,36 +50,6 @@ function setLastId() {
   saveToSessionStorage(stringAccessors.sessionLastId, lastTask.id);
 }
 
-function checkForFilterURL() {
-  const urlQuery = Object.fromEntries(
-    new URLSearchParams(window.location.search),
-  );
-
-  if ("search-task" in urlQuery && "filter-by" in urlQuery) {
-    return createFilterObject(
-      urlQuery["search-task"].toLocaleLowerCase(),
-      urlQuery["filter-by"].toLocaleLowerCase(),
-    );
-  }
-  return undefined;
-}
-
-function updateFilterFormData(filterForm) {
-  if (filterData) {
-    try {
-      const statusFilter = filterForm.querySelector(
-        `option[value=${filterData.taskStatus}]`,
-      );
-      statusFilter.selected = true;
-    } catch {
-      console.log("The filter doesn't exist!");
-    }
-
-    const textFilter = filterForm.querySelector("#search");
-    textFilter.value = filterData.taskName;
-  }
-}
-
 // I would have these tasks be UUID's to not have to have this,
 // but since the API uses a numeric Id, I'll just roll with it.
 function saveNextId() {
@@ -104,15 +57,6 @@ function saveNextId() {
   lastTaskId++;
   saveToSessionStorage(stringAccessors.sessionLastId, lastTaskId);
   return lastTaskId;
-}
-
-function updateTaskStatus(element, status) {
-  if (!element) return;
-  const taskId = element.dataset.id;
-  const taskIndex = tasksCache.findIndex((element) => element.id == taskId);
-  if (taskIndex === -1) console.error("Something went wrong!");
-  tasksCache[taskIndex].completed = status;
-  saveToLocalStorage(stringAccessors.localTaskData, tasksCache);
 }
 
 let tasksCache = [];
@@ -144,7 +88,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
     filterData = checkForFilterURL();
     setLastId();
 
-    updateFilterFormData(filterForm);
+    updateFilterFormData(filterForm, filterData);
 
     renderTasks(tasksCache, tasksWrapperElement, filterData);
     //currentTaskDataStatus.innerText = "No tasks yet...";
@@ -220,14 +164,14 @@ document.addEventListener("DOMContentLoaded", async (e) => {
       const taskElement = element.closest(".task");
 
       if (element.value === TASK_STATUS.notCompleted) {
-        updateTaskStatus(taskElement, TASK_STATUS.notCompleted);
+        updateTaskStatus(taskElement, TASK_STATUS.notCompleted, tasksCache);
         if (taskElement)
           renderTasks(tasksCache, tasksWrapperElement, filterData);
         element.classList.remove("status-completed");
         element.classList.add("status-not-completed");
         return;
       }
-      updateTaskStatus(taskElement, TASK_STATUS.completed);
+      updateTaskStatus(taskElement, TASK_STATUS.completed, tasksCache);
       if (taskElement) renderTasks(tasksCache, tasksWrapperElement, filterData);
       element.classList.remove("status-not-completed");
       element.classList.add("status-completed");

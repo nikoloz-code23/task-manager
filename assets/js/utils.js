@@ -1,3 +1,10 @@
+// Enum-like object, to make sure I won't have any typos when trying
+// to access any of them.
+const stringAccessors = {
+  localTaskData: "taskData",
+  sessionLastId: "lastId",
+};
+
 const createTaskObject = (id, title, completed) => {
   return {
     id,
@@ -104,7 +111,22 @@ const closeModalSafely = (element, validation, form) => {
   }
 };
 
+function checkForFilterURL() {
+  const urlQuery = Object.fromEntries(
+    new URLSearchParams(window.location.search),
+  );
+
+  if ("search-task" in urlQuery && "filter-by" in urlQuery) {
+    return createFilterObject(
+      urlQuery["search-task"].toLocaleLowerCase(),
+      urlQuery["filter-by"].toLocaleLowerCase(),
+    );
+  }
+  return undefined;
+}
+
 export {
+  stringAccessors,
   stringIsEmpty,
   createTaskObject,
   createFilterObject,
@@ -115,4 +137,5 @@ export {
   getDataFetch,
   toggleElementVisibility,
   closeModalSafely,
+  checkForFilterURL,
 };
