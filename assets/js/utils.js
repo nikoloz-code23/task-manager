@@ -2,7 +2,7 @@ const createTaskObject = (id, title, completed) => {
   return {
     id,
     title,
-    completed,
+    completed: completed.toString(),
   };
 };
 
