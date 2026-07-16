@@ -1,0 +1,17 @@
+:root {
+  --primary-text-color: #31241f;
+  --placeholder-text-color: #95adbe;
+
+  --primary-color: #5992c6;
+  --primary-subcolor: #0a2a92;
+  --primary-white: #ffffff;
+
+  --task-background: #c7e9f3;
+  --dropdown-background: #d7e6f7;
+
+  --logo-background: #c3e9ec;
+  --logo-text: rgb(0, 110, 255);
+
+  --status-completed: rgb(17, 150, 59);
+  --status-not-completed: rgb(150, 17, 17);
+}
