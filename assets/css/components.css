@@ -9,13 +9,31 @@
   font-size: 1.1rem;
   font-weight: 600;
 
+  &::-webkit-input-placeholder {
+    color: var(--placeholder-text-color);
+  }
+
+  &::-moz-placeholder {
+    color: var(--placeholder-text-color);
+  }
+
+  &:-ms-input-placeholder {
+    color: var(--placeholder-text-color);
+  }
+
+  &::-ms-input-placeholder {
+    color: var(--placeholder-text-color);
+  }
+
   &::placeholder {
     color: var(--placeholder-text-color);
   }
 }
 
 .select-input {
-  appearance: base-select;
+  -webkit-appearance: base-select;
+     -moz-appearance: base-select;
+          appearance: base-select;
 
   width: 18rem;
   height: 2rem;
@@ -35,7 +53,9 @@
   }
 
   &::picker(select) {
-    appearance: base-select;
+    -webkit-appearance: base-select;
+       -moz-appearance: base-select;
+            appearance: base-select;
     border: inherit;
     border-radius: inherit;
     color: inherit;
@@ -54,7 +74,9 @@
 }
 
 .status-select {
-  appearance: base-select;
+  -webkit-appearance: base-select;
+     -moz-appearance: base-select;
+          appearance: base-select;
   display: block;
   margin: 0 auto;
 
@@ -76,7 +98,9 @@
   }
 
   &::picker(select) {
-    appearance: base-select;
+    -webkit-appearance: base-select;
+       -moz-appearance: base-select;
+            appearance: base-select;
     text-align: center;
 
     padding: 1rem;
@@ -153,7 +177,7 @@
   .task-header {
     font-weight: 600;
   }
-  .task-body {
+  .task-body, .task-time {
     display: inline-block;
     font-weight: 500;
     font-size: 1rem;
@@ -167,12 +191,18 @@
 }
 
 .modal-visible {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 
 .modal-background {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   position: absolute;
   width: 100%;
   height: 100%;
