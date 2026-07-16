@@ -8,7 +8,9 @@ import {
   getDataFetch,
   toggleElementVisibility,
   closeModalSafely,
+  createFilterObject,
 } from "./utils.js";
+import { renderTasks } from "./ui.js";
 import { validateTaskName } from "./validation.js";
 
 // Enum-like object, to make sure I won't have any typos when trying
@@ -35,46 +37,76 @@ function loadingTextAnimation(currentTaskDataStatus) {
   return closureFunction;
 }
 
-async function getTasks(dataWrapperElement) {
-  const dataLocalStorage = getDataFromLocalStorage(
-    stringAccessors.localTaskData,
-  );
-  if (dataLocalStorage.length > 0) {
-    tasksCache = dataLocalStorage;
-  } else {
-    const dataFetch = await getDataFetch(
-      "https://jsonplaceholder.typicode.com/todos?_limit=5",
-    );
-    if (dataFetch.length <= 0) console.error("Something went wrong!");
-    tasksCache = dataFetch.map((element) =>
-      createTaskObject(element.id, element.title, element.completed),
-    );
-    saveToLocalStorage(stringAccessors.localTaskData, tasksCache);
+async function getTasks() {
+  const dataLocalStorage =
+    getDataFromLocalStorage(stringAccessors.localTaskData) || [];
+  let data = dataLocalStorage;
+
+  if (dataLocalStorage.length === 0) {
+    try {
+      const dataFetch = await getDataFetch(
+        "https://jsonplaceholder.typicode.com/todos?_limit=5",
+      );
+      if (dataFetch.length == 0)
+        throw new Error("Could not get data from the server.");
+
+      data = dataFetch.map((element) =>
+        createTaskObject(element.id, element.title, element.completed),
+      );
+      saveToLocalStorage(stringAccessors.localTaskData, data);
+    } catch (error) {
+      console.error("Failed to fetch or process tasks", error);
+      return [];
+    }
   }
+  return data;
+}
 
-  const lastTask = tasksCache.at(-1);
+function setLastId() {
+  const lastTask = tasksCache.at(-1) || 0;
   saveToSessionStorage(stringAccessors.sessionLastId, lastTask.id);
+}
 
-  for (const element of tasksCache) {
-    const newTask = createTaskObject(
-      element.id,
-      element.title,
-      element.completed,
+function checkForFilterURL() {
+  const urlQuery = Object.fromEntries(
+    new URLSearchParams(window.location.search),
+  );
+
+  if ("search-task" in urlQuery && "filter-by" in urlQuery) {
+    return createFilterObject(
+      urlQuery["search-task"].toLocaleLowerCase(),
+      urlQuery["filter-by"].toLocaleLowerCase(),
     );
-    dataWrapperElement.insertAdjacentHTML("beforeend", taskTemplate(newTask));
+  }
+  return undefined;
+}
+
+function updateFilterFormData(filterForm) {
+  if (filterData) {
+    try {
+      const statusFilter = filterForm.querySelector(
+        `option[value=${filterData.taskStatus}]`,
+      );
+      statusFilter.selected = true;
+    } catch {
+      console.log("The filter doesn't exist!");
+    }
+
+    const textFilter = filterForm.querySelector("#search");
+    textFilter.value = filterData.taskName;
   }
 }
 
 // I would have these tasks be UUID's to not have to have this,
 // but since the API uses a numeric Id, I'll just roll with it.
-function setAndReturnNextIdToSessionStorage() {
+function saveNextId() {
   let lastTaskId = getDataFromSessionStorage(stringAccessors.sessionLastId);
   lastTaskId++;
   saveToSessionStorage(stringAccessors.sessionLastId, lastTaskId);
   return lastTaskId;
 }
 
-function changeTaskStatus(element, status) {
+function updateTaskStatus(element, status) {
   if (!element) return;
   const taskId = element.dataset.id;
   const taskIndex = tasksCache.findIndex((element) => element.id == taskId);
@@ -84,6 +116,7 @@ function changeTaskStatus(element, status) {
 }
 
 let tasksCache = [];
+let filterData = undefined;
 
 document.addEventListener("DOMContentLoaded", async (e) => {
   const mainElement = document.querySelector("main");
@@ -93,6 +126,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
   const currentTaskDataStatus = mainElement.querySelector(
     ".current-data-status",
   );
+  const filterForm = mainElement.querySelector(".filter-wrapper");
 
   const newTaskForm = modalElement.querySelector(".new-task-form");
   const taskTitleInput = modalElement.querySelector("#task-title");
@@ -106,9 +140,32 @@ document.addEventListener("DOMContentLoaded", async (e) => {
   setTimeout(async () => {
     clearInterval(intervalId);
     toggleElementVisibility(currentTaskDataStatus);
-    await getTasks(tasksWrapperElement);
+    tasksCache = await getTasks();
+    filterData = checkForFilterURL();
+    setLastId();
+
+    updateFilterFormData(filterForm);
+
+    renderTasks(tasksCache, tasksWrapperElement, filterData);
     //currentTaskDataStatus.innerText = "No tasks yet...";
   }, 2000);
+
+  filterForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(filterForm);
+    const formProps = Object.fromEntries(formData);
+    const querySelector = new URLSearchParams(formData).toString();
+
+    const newUrl = `${window.location.pathname}?${querySelector}`;
+    window.history.pushState({ path: newUrl }, "", newUrl);
+
+    filterData = createFilterObject(
+      formProps["search-task"].toLocaleLowerCase(),
+      formProps["filter-by"].toLocaleLowerCase(),
+    );
+    renderTasks(tasksCache, tasksWrapperElement, filterData);
+  });
 
   newTaskForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -119,7 +176,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
     if (validateTaskName(formProps.title)) {
       closeModalSafely(modalElement, taskNameValidation, newTaskForm);
 
-      let lastTaskId = setAndReturnNextIdToSessionStorage();
+      let lastTaskId = saveNextId();
 
       const newTask = createTaskObject(
         lastTaskId,
@@ -163,12 +220,15 @@ document.addEventListener("DOMContentLoaded", async (e) => {
       const taskElement = element.closest(".task");
 
       if (element.value === TASK_STATUS.notCompleted) {
-        changeTaskStatus(taskElement, TASK_STATUS.notCompleted);
+        updateTaskStatus(taskElement, TASK_STATUS.notCompleted);
+        if (taskElement)
+          renderTasks(tasksCache, tasksWrapperElement, filterData);
         element.classList.remove("status-completed");
         element.classList.add("status-not-completed");
         return;
       }
-      changeTaskStatus(taskElement, TASK_STATUS.completed);
+      updateTaskStatus(taskElement, TASK_STATUS.completed);
+      if (taskElement) renderTasks(tasksCache, tasksWrapperElement, filterData);
       element.classList.remove("status-not-completed");
       element.classList.add("status-completed");
     }
@@ -182,7 +242,10 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         break;
       case "Enter":
         e.preventDefault();
-        newTaskForm.requestSubmit();
+        const activeForm = e.target.closest("form");
+        if (activeForm) {
+          activeForm.requestSubmit();
+        }
         break;
     }
   });
