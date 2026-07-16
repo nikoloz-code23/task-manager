@@ -54,7 +54,7 @@
       <button class="button" id="new-task-button">Create a new task</button>
 
       <div class="tasks-wrapper"></div>
-      <div class="no-tasks">No tasks yet...</div>
+      <div class="current-data-status"></div>
 
       <!-- Using 'inert' here to hide not only visually, but from screen readers too. -->
       <div class="modal-background" id="new-task-modal" inert>
@@ -74,18 +74,12 @@
           <div class="new-task-input-label-wrapper">
             <label for="task-status" class="input-label">Status:</label>
             <select
-              name="status"
+              name="completed"
               class="status-select status-not-completed"
               id="task-status"
             >
-              <option value="completed" class="status-completed">
-                Completed
-              </option>
-              <option
-                value="not-completed"
-                class="status-not-completed"
-                selected
-              >
+              <option value="true" class="status-completed">Completed</option>
+              <option value="false" class="status-not-completed" selected>
                 Not Completed
               </option>
             </select>

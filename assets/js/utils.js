@@ -1,8 +1,8 @@
-const createTaskObject = (id, title, status) => {
+const createTaskObject = (id, title, completed) => {
   return {
     id,
     title,
-    status,
+    completed: completed.toString(),
   };
 };
 
@@ -13,6 +13,18 @@ const saveToLocalStorage = (key, data) => {
     }
 
     localStorage.setItem(key, JSON.stringify(data));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const saveToSessionStorage = (key, data) => {
+  try {
+    if (!key || data === undefined) {
+      throw new Error("No key or data provided");
+    }
+
+    sessionStorage.setItem(key, data);
   } catch (error) {
     console.error(error);
   }
@@ -33,6 +45,22 @@ const getDataFromLocalStorage = (key) => {
       return [];
     }
     return parsedData;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+const getDataFromSessionStorage = (key) => {
+  try {
+    if (!key) {
+      throw new Error("No key provided");
+    }
+    const data = sessionStorage.getItem(key);
+    if (!data) {
+      return undefined;
+    }
+
+    return data;
   } catch (error) {
     console.error(error.message);
   }
@@ -67,7 +95,9 @@ const closeModalSafely = (element, validation, form) => {
 export {
   createTaskObject,
   saveToLocalStorage,
+  saveToSessionStorage,
   getDataFromLocalStorage,
+  getDataFromSessionStorage,
   getDataFetch,
   toggleElementVisibility,
   closeModalSafely,
