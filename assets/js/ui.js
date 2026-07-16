@@ -47,6 +47,7 @@ export function renderTasks(tasks, wrapperElement, filterObject) {
       element.id,
       element.title,
       element.completed,
+      element.timestamp
     );
     wrapperElement.insertAdjacentHTML("beforeend", taskTemplate(newTask));
   }

@@ -5,11 +5,17 @@ const stringAccessors = {
   sessionLastId: "lastId",
 };
 
-const createTaskObject = (id, title, completed) => {
+const createTaskObject = (id, title, completed, date = undefined) => {
+  const currentDate = new Date();
+  const timestampString = 
+    date || 
+    currentDate.getFullYear() + '/' + currentDate.getMonth() + '/' + currentDate.getDate() + "  " + 
+    currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
   return {
     id,
     title,
     completed: completed.toString(),
+    timestamp: timestampString
   };
 };
 
