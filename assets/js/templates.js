@@ -14,14 +14,15 @@ export const taskTemplate = (task) =>
   `
   <div class="task" data-id="${task.id}">
     <p class="task-header">Task:</p>
-    <h3 class="task-body">
+    <p class="task-body">
       ${task.title}
-    </h3>
+    </p>
     <div class="status-wrapper">
-      <p><strong>Status:</strong></p>
+      <label for="status-${task.id}"><strong>Status:</strong></label>
       <select
         name="status"
         class="status-select ${task.completed === TASK_STATUS.completed ? "status-completed" : "status-not-completed"}"
+        id="status-${task.id}"
       >
         <option value="true" class="status-completed" ${task.completed === TASK_STATUS.completed ? "selected" : ""}>
           Completed
