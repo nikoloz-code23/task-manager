@@ -6,6 +6,13 @@ const createTaskObject = (id, title, completed) => {
   };
 };
 
+const createFilterObject = (taskName, taskStatus) => {
+  return {
+    taskName,
+    taskStatus,
+  };
+};
+
 const saveToLocalStorage = (key, data) => {
   try {
     if (!key || !data) {
@@ -94,6 +101,7 @@ const closeModalSafely = (element, validation, form) => {
 
 export {
   createTaskObject,
+  createFilterObject,
   saveToLocalStorage,
   saveToSessionStorage,
   getDataFromLocalStorage,
