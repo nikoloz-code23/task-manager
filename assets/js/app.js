@@ -20,6 +20,7 @@ const stringAccessors = {
 
 // This doesn't need to be a closure, but I want to flex. Hope it's okay.
 function loadingTextAnimation(currentTaskDataStatus) {
+  // Since it's a closure, these are essentially private variables!
   let dots = "";
   let loadingText = "Loading";
 
@@ -45,11 +46,9 @@ async function getTasks(dataWrapperElement) {
       "https://jsonplaceholder.typicode.com/todos?_limit=5",
     );
     if (dataFetch.length <= 0) console.error("Something went wrong!");
-    tasksCache = dataFetch.map(({ id, title, completed }) => ({
-      id,
-      title,
-      completed,
-    }));
+    tasksCache = dataFetch.map((element) =>
+      createTaskObject(element.id, element.title, element.completed),
+    );
     saveToLocalStorage(stringAccessors.localTaskData, tasksCache);
   }
 
@@ -60,7 +59,7 @@ async function getTasks(dataWrapperElement) {
     const newTask = createTaskObject(
       element.id,
       element.title,
-      String(element.completed),
+      element.completed,
     );
     dataWrapperElement.insertAdjacentHTML("beforeend", taskTemplate(newTask));
   }
@@ -76,6 +75,7 @@ function setAndReturnNextIdToSessionStorage() {
 }
 
 function changeTaskStatus(element, status) {
+  if (!element) return;
   const taskId = element.dataset.id;
   const taskIndex = tasksCache.findIndex((element) => element.id == taskId);
   if (taskIndex === -1) console.error("Something went wrong!");
@@ -161,17 +161,14 @@ document.addEventListener("DOMContentLoaded", async (e) => {
 
     if (element.classList.contains("status-select")) {
       const taskElement = element.closest(".task");
-      if (element.value === "not-completed") {
-        if (taskElement) {
-          changeTaskStatus(taskElement, TASK_STATUS.notCompleted);
-        }
+
+      if (element.value === TASK_STATUS.notCompleted) {
+        changeTaskStatus(taskElement, TASK_STATUS.notCompleted);
         element.classList.remove("status-completed");
         element.classList.add("status-not-completed");
         return;
       }
-      if (taskElement) {
-        changeTaskStatus(taskElement, TASK_STATUS.completed);
-      }
+      changeTaskStatus(taskElement, TASK_STATUS.completed);
       element.classList.remove("status-not-completed");
       element.classList.add("status-completed");
     }
