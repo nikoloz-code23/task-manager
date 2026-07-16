@@ -6,7 +6,12 @@ const createTaskObject = (id, title, completed) => {
   };
 };
 
+function stringIsEmpty(str) {
+  return !str || str.length === 0;
+}
+
 const createFilterObject = (taskName, taskStatus) => {
+  if (!taskName && !taskStatus) return undefined;
   return {
     taskName,
     taskStatus,
@@ -100,6 +105,7 @@ const closeModalSafely = (element, validation, form) => {
 };
 
 export {
+  stringIsEmpty,
   createTaskObject,
   createFilterObject,
   saveToLocalStorage,
