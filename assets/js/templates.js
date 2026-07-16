@@ -17,6 +17,10 @@ export const taskTemplate = (task) =>
     <p class="task-body">
       ${task.title}
     </p>
+    <p class="task-header">Created on:</p>
+    <p class="task-time">
+      ${task.timestamp}
+    </p>
     <div class="status-wrapper">
       <label for="status-${task.id}"><strong>Status:</strong></label>
       <select
