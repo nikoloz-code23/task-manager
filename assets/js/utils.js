@@ -9,7 +9,7 @@ const createTaskObject = (id, title, completed, date = undefined) => {
   const currentDate = new Date();
   const timestampString = 
     date || 
-    currentDate.getFullYear() + '/' + currentDate.getMonth() + '/' + currentDate.getDate() + "  " + 
+    currentDate.getFullYear() + '/' + currentDate.getMonth()+1 + '/' + currentDate.getDate() + "  " + 
     currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
   return {
     id,
@@ -33,7 +33,7 @@ const createFilterObject = (taskName, taskStatus) => {
 
 const saveToLocalStorage = (key, data) => {
   try {
-    if (!key || !data) {
+    if (!key || data === undefined || data === null) {
       throw new Error("No key or data provided");
     }
 

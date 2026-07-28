@@ -46,8 +46,8 @@ async function getTasks() {
 }
 
 function setLastId() {
-  const lastTask = tasksCache.at(-1) || 0;
-  saveToSessionStorage(stringAccessors.sessionLastId, lastTask.id);
+  const lastTask = tasksCache.at(-1);
+  saveToSessionStorage(stringAccessors.sessionLastId, lastTask.id ? lastTask.id : 0);
 }
 
 // I would have these tasks be UUID's to not have to have this,
@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
   newTaskForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const formData = new FormData(event.target);
+    const formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
     if (validateTaskName(formProps.title)) {
@@ -165,14 +165,11 @@ document.addEventListener("DOMContentLoaded", async (e) => {
 
       if (element.value === TASK_STATUS.notCompleted) {
         updateTaskStatus(taskElement, TASK_STATUS.notCompleted, tasksCache);
-        if (taskElement)
-          renderTasks(tasksCache, tasksWrapperElement, filterData);
         element.classList.remove("status-completed");
         element.classList.add("status-not-completed");
         return;
       }
       updateTaskStatus(taskElement, TASK_STATUS.completed, tasksCache);
-      if (taskElement) renderTasks(tasksCache, tasksWrapperElement, filterData);
       element.classList.remove("status-not-completed");
       element.classList.add("status-completed");
     }
